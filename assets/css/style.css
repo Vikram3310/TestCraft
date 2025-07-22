@@ -1,0 +1,189 @@
+/* === Global Variables === */
+:root {
+  --bg-color: #0a0a0a;
+  --card-bg: #1a1a1a;
+  --border-color: #2a2a2a;
+  --primary: #0ff;
+  --accent: #ff0099;
+  --danger: #ff3b3b;
+  --text: #f0f0f0;
+  --font-main: 'Inter', sans-serif;
+  --font-head: 'Merriweather', serif;
+}
+
+/* === Reset and Base === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-color);
+  color: var(--text);
+  line-height: 1.6;
+  opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
+}
+
+/* === Typography === */
+h1, h2, h3 {
+  font-family: var(--font-head);
+  color: var(--primary);
+}
+
+a {
+  text-decoration: none;
+  color: var(--text);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--primary);
+}
+
+/* === Layout === */
+header, footer {
+  background: linear-gradient(to right, #111, #222);
+  text-align: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+footer {
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+
+/* === Navigation === */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+nav a {
+  margin: 0 1rem;
+  font-weight: 600;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+
+/* === Buttons === */
+button {
+  background: var(--primary);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* === Forms === */
+input, select, textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin: 0.5rem 0;
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition: border 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* === Cards === */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.01);
+}
+
+/* === Badges === */
+.badge {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+  margin-right: 0.5rem;
+}
+
+.badge.low {
+  background: #00c853;
+}
+
+.badge.medium {
+  background: #ffab00;
+}
+
+.badge.high {
+  background: #d50000;
+}
+
+.badge.blocker {
+  background: #ff1744;
+}
+
+.badge.critical {
+  background: #ff3d00;
+}
+
+.badge.major {
+  background: #ff9100;
+}
+
+.badge.minor {
+  background: #64dd17;
+}
+
+/* === Utilities === */
+.flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}

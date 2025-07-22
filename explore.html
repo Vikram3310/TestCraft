@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore | Exploratory Testing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: #111;
+      color: #eee;
+      transition: opacity 1s ease-in-out;
+      opacity: 0;
+    }
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    header {
+      background-color: #1f1f1f;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #333;
+      position: relative;
+    }
+
+    .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      padding-left: 1350px;
+      color: #00ffc8;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    nav a {
+      color: #00ffc8;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #00ffc822;
+    }
+
+    main {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #00ffc8;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .session-controls, .session-form, .session-logs {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      border: 1px solid #333;
+    }
+
+    .session-controls h2, .session-form h2, .session-logs h2 {
+      color: #00ffc8;
+      margin-bottom: 15px;
+    }
+
+    .timer-display {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .session-controls button {
+      padding: 10px 15px;
+      margin-right: 10px;
+      background: #00ffc8;
+      color: #111;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .session-form input, .session-form textarea, .session-form select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: none;
+      background: #222;
+      color: #eee;
+    }
+
+    .session-form button {
+      background: #00ffc8;
+      color: #111;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .log {
+      background: #222;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .log h4 {
+      margin-bottom: 5px;
+      color: #00ffc8;
+    }
+
+    .log .tag {
+      display: inline-block;
+      background: #00ffc8;
+      color: #111;
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      margin-right: 10px;
+    }
+
+    .log-actions {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .log-actions button {
+      margin-left: 5px;
+      padding: 4px 8px;
+      background: #444;
+      color: #eee;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <button onclick="goBack()" style="position: absolute; left: 20px; top: 70px; background: transparent; border: 2px solid #00ffc8; color: #00ffc8; padding: 6px 12px; border-radius: 8px; cursor: pointer;">← Go Back</button>
+  <header>
+    
+    <div class="logo">TestCraft</div>
+  </header>
+  
+  <main>
+    <h1>Exploratory Testing Session</h1>
+    
+    <section class="session-controls">
+      <h2>Session Timer</h2>
+      <div class="timer-display" id="timer">00:00:00</div>
+      <button onclick="startTimer()">Start</button>
+      <button onclick="stopTimer()">Stop</button>
+      <button onclick="resetTimer()">Reset</button>
+    </section>
+
+    <section class="session-form">
+      <h2>Log a Session</h2>
+      <input type="text" id="title" placeholder="Session Title">
+      <textarea id="notes" placeholder="What did you explore?"></textarea>
+      <input type="text" id="tags" placeholder="Tags (comma separated)">
+      <button onclick="addLog()">Add Log</button>
+    </section>
+
+    <section class="session-logs">
+      <h2>Session Logs</h2>
+      <div id="logs"></div>
+    </section>
+  </main>
+
+  <script>
+    document.body.classList.add('loaded');
+
+    let timerInterval;
+    let seconds = 0;
+
+    function formatTime(sec) {
+      const h = String(Math.floor(sec / 3600)).padStart(2, '0');
+      const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+      const s = String(sec % 60).padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+
+    function updateTimerDisplay() {
+      document.getElementById('timer').textContent = formatTime(seconds);
+    }
+
+    function startTimer() {
+      if (!timerInterval) {
+        timerInterval = setInterval(() => {
+          seconds++;
+          updateTimerDisplay();
+        }, 1000);
+      }
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+
+    function resetTimer() {
+      stopTimer();
+      seconds = 0;
+      updateTimerDisplay();
+    }
+
+    function addLog() {
+      const title = document.getElementById('title').value;
+      const notes = document.getElementById('notes').value;
+      const tags = document.getElementById('tags').value;
+
+      const logId = Date.now();
+
+      const logHTML = `
+        <div class="log" id="log-${logId}">
+          <h4>${title}</h4>
+          <p>${notes}</p>
+          ${tags.split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join(' ')}
+          <div class="log-actions">
+            <button onclick="editLog(${logId})">Edit</button>
+            <button onclick="deleteLog(${logId})">Delete</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('logs').insertAdjacentHTML('beforeend', logHTML);
+      document.getElementById('title').value = '';
+      document.getElementById('notes').value = '';
+      document.getElementById('tags').value = '';
+    }
+
+    function deleteLog(id) {
+      const log = document.getElementById(`log-${id}`);
+      if (log) log.remove();
+    }
+
+    function editLog(id) {
+      const log = document.getElementById(`log-${id}`);
+      const title = prompt("Edit title:", log.querySelector('h4').innerText);
+      const notes = prompt("Edit notes:", log.querySelector('p').innerText);
+      if (title && notes) {
+        log.querySelector('h4').innerText = title;
+        log.querySelector('p').innerText = notes;
+      }
+    }
+function goBack() {
+  window.location.href = 'index.html'; // Change path if needed
+}
+    updateTimerDisplay();
+  </script>
+</body>
+
+</html>

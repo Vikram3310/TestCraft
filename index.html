@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TestCraft | QA Portfolio Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: #111;
+      color: #eee;
+      transition: opacity 1s ease-in-out;
+      opacity: 0;
+    }
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    header {
+      background-color: #1f1f1f;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #333;
+      position: relative;
+    }
+
+    .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #00ffc8;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    nav a {
+      color: #00ffc8;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #00ffc822;
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      font-size: 1.8rem;
+      color: #00ffc8;
+      border: none;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: #1f1f1f;
+        flex-direction: column;
+        align-items: flex-end;
+        display: none;
+        padding: 10px;
+        border: 1px solid #333;
+        border-radius: 8px;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      nav.show {
+        display: flex;
+      }
+    }
+
+    .hero {
+      text-align: center;
+      padding: 80px 20px 40px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      color: #00ffc8;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #ccc;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 40px 20px;
+      gap: 20px;
+    }
+
+    .feature {
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 20px;
+      width: 280px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .feature:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature h3 {
+      color: #00ffc8;
+      margin-bottom: 10px;
+    }
+
+    .feature p {
+      color: #bbb;
+    }
+
+    .about, .contact {
+      padding: 60px 20px;
+      background: #1a1a1a;
+      text-align: center;
+    }
+
+    .about h2, .contact h2 {
+      color: #00ffc8;
+      margin-bottom: 20px;
+    }
+
+    .about p {
+      max-width: 800px;
+      margin: 0 auto;
+      color: #ccc;
+    }
+
+    .contact form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .contact input, .contact textarea {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #222;
+      color: #eee;
+    }
+
+    .contact button {
+      padding: 10px;
+      background: #00ffc8;
+      color: #111;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo"> TestCraft</div>
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
+    <nav id="navMenu">
+      <a href="index.html"> Home</a>
+      <a href="bug-lab.html"> Bug Lab</a>
+      <a href="visual-reports.html"> Bug Reports</a>
+      <a href="explore.html"> Exploratory</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    
+    <h1>Welcome to TestCraft</h1>
+    <p>Your one-stop hub to showcase manual QA testing brilliance.</p>
+  </section>
+
+  <section class="features">
+    <div class="feature">
+      <h3> Bug Simulation Lab</h3>
+      <p>Create, test and simulate common game bugs.</p>
+    </div>
+    <div class="feature">
+      <h3> Visual Bug Reports</h3>
+      <p>Attach screenshots and describe bugs in detail.</p>
+    </div>
+    <div class="feature">
+      <h3> Exploratory Testing</h3>
+      <p>Uncover edge-case bugs through exploratory scenarios.</p>
+    </div>
+  </section>
+
+  <section class="about">
+    <h2>About Me</h2>
+    <p>I’m a passionate Manual QA Tester who loves to break things (intentionally)! TestCraft is my playground where I demonstrate skills in bug tracking, exploratory testing, visual documentation, and test scenario planning — all through a fully hand-coded interface.</p>
+  </section>
+
+  <section class="contact">
+    <h2>Contact Me</h2>
+    <form action="https://formspree.io/f/mvgqzjdl" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <script>
+function toggleMenu() {
+    document.getElementById('navMenu').classList.toggle('show');
+  }
+
+  window.addEventListener("load", function () {
+    document.body.classList.add("loaded");
+  });
+
+  document.querySelector('.contact form')?.addEventListener('submit', function (e) {
+    e.preventDefault(); // Prevent default form submission
+
+    const form = this;
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: form.method,
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    }).then(response => {
+      if (response.ok) {
+        form.reset(); // ✅ Just reset the form
+      }
+    }).catch(error => {
+      console.error('Form submission failed', error);
+    });
+  });
+  document.querySelector('.contact form')?.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const form = this;
+  const formData = new FormData(form);
+
+  fetch(form.action, {
+    method: form.method,
+    body: formData,
+    headers: { 'Accept': 'application/json' }
+  }).then(response => {
+    if (response.ok) {
+      form.reset(); // Reset form
+      showToast();  // Show toast
+    }
+  }).catch(error => {
+    console.error('Form submission failed', error);
+  });
+});
+
+function showToast() {
+  const toast = document.getElementById('toast');
+  toast.style.opacity = 1;
+
+  setTimeout(() => {
+    toast.style.opacity = 0;
+  }, 2500);
+}
+
+  </script>
+<div id="toast" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #1f1f1f;
+  color: #00ffc8;
+  padding: 12px 18px;
+  border-left: 4px solid #00ffc8;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 0 15px rgba(0, 255, 200, 0.4);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 9999;
+">
+  <span style="font-size: 18px;">✅</span>
+  <span>Form submitted successfully!</span>
+</div>
+
+
+</body>
+
+</html>

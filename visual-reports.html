@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Visual Reports | TestCraft</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #111;
+      color: #c9d1d9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #1f1f1f;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #00ffc8;
+      border-bottom: 1px solid #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+
+    .search-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1f1f1f;
+      color: #c9d1d9;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #238636;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2ea043;
+    }
+
+    .bug-list {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #333;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    .bug-item {
+      padding: 10px;
+      border-bottom: 1px solid #333;
+      cursor: pointer;
+    }
+
+    .bug-item:hover {
+      background-color: #1a1a1a;
+    }
+
+    .bug-details {
+      background: #1f1f1f;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    canvas {
+      background-color: #1f1f1f;
+      margin-top: 40px;
+      padding: 20px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <button onclick="goBack()" style="position: absolute; left: 20px; top: 85px; background: transparent; border: 2px solid #00ffc8; color: #00ffc8; padding: 6px 12px; border-radius: 8px; cursor: pointer;">← Go Back</button>
+  <header> Visual Reports by Bug ID</header>
+  <div class="container">
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search by Bug ID..." />
+      <button onclick="filterBugs()">Search</button>
+    </div>
+
+    <div class="bug-list" id="bugList"></div>
+
+    <div class="bug-details" id="bugDetails">
+      <h3>Select a bug ID to view full report</h3>
+    </div>
+
+    <canvas id="bugChart" height="150"></canvas>
+  </div>
+
+  <script>
+    const bugList = document.getElementById("bugList");
+    const bugDetails = document.getElementById("bugDetails");
+    const searchInput = document.getElementById("searchInput");
+
+    const allBugs = JSON.parse(localStorage.getItem("testCases") || "[]");
+
+    function displayBugs(bugs) {
+      bugList.innerHTML = "";
+      if (bugs.length === 0) {
+        bugList.innerHTML = "<p>No matching bugs found.</p>";
+        return;
+      }
+
+      bugs.forEach((bug, index) => {
+        const div = document.createElement("div");
+        div.className = "bug-item";
+        div.innerText = `Bug ID: ${bug.bugId}`;
+        div.onclick = () => showBugDetails(bug);
+        bugList.appendChild(div);
+      });
+    }
+
+    function showBugDetails(bug) {
+      bugDetails.innerHTML = `
+        <h2>Bug ID: ${bug.bugId}</h2>
+        <p><strong>Title:</strong> ${bug.title}</p>
+        <p><strong>Steps:</strong> ${bug.steps}</p>
+        <p><strong>Severity:</strong> ${bug.severity}</p>
+        <p><strong>Priority:</strong> ${bug.priority}</p>
+        <p><strong>Status:</strong> ${bug.status}</p>
+      `;
+    }
+
+    function filterBugs() {
+      const query = searchInput.value.toLowerCase();
+      const filtered = allBugs.filter(bug => bug.bugId.toLowerCase().includes(query));
+      displayBugs(filtered);
+    }
+
+    function renderChart() {
+      const severityCount = { Blocker: 0, Critical: 0, Major: 0, Minor: 0 };
+      allBugs.forEach(bug => {
+        if (severityCount.hasOwnProperty(bug.severity)) {
+          severityCount[bug.severity]++;
+        }
+      });
+
+      new Chart(document.getElementById("bugChart"), {
+        type: "bar",
+        data: {
+          labels: Object.keys(severityCount),
+          datasets: [{
+            label: "Bugs by Severity",
+            backgroundColor: ["#f85149", "#da3633", "#d29922", "#58a6ff"],
+            data: Object.values(severityCount)
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: {
+              display: true,
+              text: "Bug Severity Distribution",
+              color: "#c9d1d9",
+              font: {
+                size: 18
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: "#c9d1d9" },
+              grid: { color: "#333" }
+            },
+            y: {
+              beginAtZero: true,
+              ticks: { color: "#c9d1d9" },
+              grid: { color: "#333" }
+            }
+          }
+        }
+      });
+    }
+function goBack() {
+  window.location.href = 'index.html'; // Change path if needed
+}
+
+    displayBugs(allBugs);
+    renderChart();
+  </script>
+</body>
+</html>

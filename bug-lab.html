@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bug Simulation Lab | TestCraft</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #111;
+      color: #c9d1d9;
+      transition: opacity 1s ease-in-out;
+      opacity: 0;
+    }
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    header {
+      background-color: #1f1f1f;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #00ffc8;
+      border-bottom: 1px solid #1f1f1f;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #1f1f1f;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(56, 139, 253, 0.2);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      background-color: rgb(34, 34, 34);
+      color: #c9d1d9;
+      border: 1px solid #1f1f1f;
+      border-radius: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #238636;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background-color: #2ea043;
+    }
+
+    .test-case {
+      background-color: #1f1f1f;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      border-left: 4px solid #00ffc8;
+      position: relative;
+    }
+
+    .priority {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .priority.low {
+      background-color: #1f6feb;
+      color: white;
+    }
+
+    .priority.medium {
+      background-color: #d29922;
+      color: white;
+    }
+
+    .priority.high {
+      background-color: #da3633;
+      color: white;
+    }
+
+    .severity {
+      font-weight: bold;
+    }
+
+    .severity.Blocker {
+      color: #f85149;
+    }
+
+    .severity.Critical {
+      color: #da3633;
+    }
+
+    .severity.Major {
+      color: #d29922;
+    }
+
+    .severity.Minor {
+      color: #58a6ff;
+    }
+
+    .actions {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .actions button {
+      margin-left: 5px;
+      background-color: transparent;
+      border: none;
+      color: #58a6ff;
+      cursor: pointer;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #00ffc8;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .back:hover {
+      text-decoration: underline;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <button onclick="goBack()" style="position: absolute; left: 20px; top: 85px; background: transparent; border: 2px solid #00ffc8; color: #00ffc8; padding: 6px 12px; border-radius: 8px; cursor: pointer;">← Go Back</button>
+    
+    <header> Bug Simulation Lab </header>
+
+  
+
+
+
+  <div class="container">
+    <form id="bugForm">
+        <label for="bugId">Bug ID</label>
+<input type="text" id="bugId" name="bugId" readonly>
+
+      <label>Test Case Title</label>
+      <input type="text" id="title" required />
+
+      <label>Steps to Reproduce</label>
+      <textarea id="steps" rows="4" required></textarea>
+
+      <label>Severity</label>
+      <select id="severity">
+        <option>Blocker</option>
+        <option>Critical</option>
+        <option>Major</option>
+        <option>Minor</option>
+      </select>
+
+      <label>Priority</label>
+      <select id="priority">
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+      </select>
+
+      <label>Status</label>
+      <select id="status">
+        <option>Open</option>
+        <option>In Progress</option>
+        <option>Closed</option>
+      </select>
+
+      <button type="submit">Add Test Case</button>
+    </form>
+
+    <div id="testCases"></div>
+  </div>
+
+<!-- Add inside <body> -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.body.classList.add('loaded');
+    const form = document.getElementById('bugForm');
+    const bugIdInput = document.getElementById('bugId');
+    const testCasesContainer = document.getElementById('testCases');
+
+    // Generate a random Bug ID (e.g., BUG-5831)
+    const generateBugId = () => {
+      return 'BUG-' + Math.floor(1000 + Math.random() * 9000);
+    };
+
+    // Set a new Bug ID on page load
+    const setNewBugId = () => {
+      bugIdInput.value = generateBugId();
+    };
+
+    const getCases = () => JSON.parse(localStorage.getItem('testCases') || '[]');
+    const saveCases = (cases) => localStorage.setItem('testCases', JSON.stringify(cases));
+
+    const renderCases = () => {
+      const cases = getCases();
+      testCasesContainer.innerHTML = '';
+      cases.forEach((test, index) => {
+        const div = document.createElement('div');
+        div.className = 'test-case';
+        div.innerHTML = `
+          <strong>${test.title}</strong>
+          <p><strong>Bug ID:</strong> ${test.bugId}</p>
+          <p>${test.steps}</p>
+          <p><span class="severity ${test.severity}">${test.severity}</span> | 
+          <span class="priority ${test.priority.toLowerCase()}">${test.priority} Priority</span> | 
+          <em>Status: ${test.status}</em></p>
+          <div class="actions">
+            <button onclick="editCase(${index})"><p>Edit</p></button>
+            <button onclick="deleteCase(${index})"><p>Delete</p></button>
+          </div>
+        `;
+        testCasesContainer.appendChild(div);
+      });
+    };
+
+    window.editCase = (index) => {
+      const cases = getCases();
+      const test = cases[index];
+      document.getElementById('bugId').value = test.bugId;
+      document.getElementById('title').value = test.title;
+      document.getElementById('steps').value = test.steps;
+      document.getElementById('severity').value = test.severity;
+      document.getElementById('priority').value = test.priority;
+      document.getElementById('status').value = test.status;
+      cases.splice(index, 1);
+      saveCases(cases);
+      renderCases();
+    };
+
+    window.deleteCase = (index) => {
+      const cases = getCases();
+      cases.splice(index, 1);
+      saveCases(cases);
+      renderCases();
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newCase = {
+        bugId: bugIdInput.value,
+        title: document.getElementById('title').value,
+        steps: document.getElementById('steps').value,
+        severity: document.getElementById('severity').value,
+        priority: document.getElementById('priority').value,
+        status: document.getElementById('status').value
+      };
+      const cases = getCases();
+      cases.push(newCase);
+      saveCases(cases);
+      form.reset();
+      setNewBugId(); // generate a new Bug ID after adding
+      renderCases();
+    });
+    
+    setNewBugId();
+    renderCases();
+});
+function goBack() {
+  window.location.href = 'index.html'; // Change path if needed
+}
+</script>
+
+</body>
+
+</html>
