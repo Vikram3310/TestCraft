@@ -9,11 +9,11 @@ _A lightweight portfolio project to showcase manual testing skills, all built us
 
 | Home Page | Bug Lab |
 |-----------|---------|
-| ![Home](https://yourdomain.com/screenshots/home.png) | ![BugLab](https://yourdomain.com/screenshots/buglab.png) |
+| ![Home](/assets/media/Home.png) | ![BugLab](/assets/media/BugLab.png) |
 
 | Visual Reports | Exploratory |
 |----------------|-------------|
-| ![Reports](https://yourdomain.com/screenshots/visual-reports.png) | ![Explore](https://yourdomain.com/screenshots/explore.png) |
+| ![Reports](/assets/media/BugReport.png) | ![Explore](/assets/media/Exploratory.png) |
 
 > _Replace the image URLs with real screenshots hosted in your repo or image host (like GitHub or ImgBB)._
 
