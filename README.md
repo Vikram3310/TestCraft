@@ -1,6 +1,6 @@
 # 🧪 TestCraft: The Manual QA Portfolio Hub
 
-[![Live Project](https://img.shields.io/badge/View-Live-blueviolet?style=for-the-badge&logo=github)](https://yourusername.github.io/testcraft/)  
+[![Live Project](https://img.shields.io/badge/View-Live-blueviolet?style=for-the-badge&logo=github)](https://vikram3310.github.io/TestCraft)  
 _A lightweight portfolio project to showcase manual testing skills, all built using HTML, CSS, and JavaScript._
 
 ---
@@ -14,8 +14,6 @@ _A lightweight portfolio project to showcase manual testing skills, all built us
 | Visual Reports | Exploratory |
 |----------------|-------------|
 | ![Reports](/assets/media/BugReport.png) | ![Explore](/assets/media/Exploratory.png) |
-
-> _Replace the image URLs with real screenshots hosted in your repo or image host (like GitHub or ImgBB)._
 
 ---
 
@@ -65,7 +63,7 @@ _A lightweight portfolio project to showcase manual testing skills, all built us
 3. Choose the `main` branch and `/root` folder
 4. GitHub will host it at:
 
-Replace all placeholder URLs (like `yourusername` and screenshot links) with your actual values.
+
 
 ---
 
