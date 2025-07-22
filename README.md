@@ -99,10 +99,3 @@ TestCraft/
 
 ---
 
-## 📃 License
-
-This project is released under the **MIT License**.
-
-> Feel free to use or modify for personal or professional portfolio purposes.
-
----
