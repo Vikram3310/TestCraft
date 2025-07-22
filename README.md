@@ -70,6 +70,7 @@ _A lightweight portfolio project to showcase manual testing skills, all built us
 ## 🗂 Folder Structure
 
 TestCraft/
+
 ├── index.html # Homepage & contact
 
 ├── bug-lab.html # Bug submission UI
@@ -79,6 +80,7 @@ TestCraft/
 ├── explore.html # Exploratory test logs
 
 └── README.md # Documentation
+
 ---
 
 ## 🧪 Usage Steps
