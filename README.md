@@ -71,9 +71,13 @@ _A lightweight portfolio project to showcase manual testing skills, all built us
 
 TestCraft/
 ├── index.html # Homepage & contact
+
 ├── bug-lab.html # Bug submission UI
+
 ├── visual-reports.html # Bug report + charts
+
 ├── explore.html # Exploratory test logs
+
 └── README.md # Documentation
 ---
 
