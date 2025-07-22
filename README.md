@@ -95,7 +95,7 @@ TestCraft/
 ## 📬 Contact
 
 - 📧 Email: vikram.pvtt@gmail.com
-- 🌐 Portfolio: [Your Website or GitHub](https://vikram3310.netlify.app/)
+- 🌐 Portfolio: [Portfolio](https://vikram3310.netlify.app/)
 
 ---
 
